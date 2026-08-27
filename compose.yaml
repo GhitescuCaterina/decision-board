@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: decision-board-postgres
+    environment:
+      POSTGRES_DB: decision_board
+      POSTGRES_USER: decision_board
+      POSTGRES_PASSWORD: decision_board
+    ports:
+      - "5432:5432"
+    volumes:
+      - decision-board-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  decision-board-postgres-data:

@@ -1,20 +1,31 @@
 package com.decisionboard.backend.controller;
 
+import com.decisionboard.backend.dto.BoardResponse;
 import com.decisionboard.backend.dto.CreateBoardRequest;
+import com.decisionboard.backend.service.BoardService;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/boards")
 public class BoardController {
 
+    private final BoardService boardService;
+
+    public BoardController(BoardService boardService) {
+        this.boardService = boardService;
+    }
+
     @PostMapping
-    public CreateBoardRequest createBoard(
+    public ResponseEntity<BoardResponse> createBoard(
             @Valid @RequestBody CreateBoardRequest request
     ) {
-        return request;
+        BoardResponse response = boardService.createBoard(request);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(response);
     }
 }
