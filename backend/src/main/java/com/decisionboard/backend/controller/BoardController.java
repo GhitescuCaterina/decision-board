@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/boards")
@@ -27,5 +28,14 @@ public class BoardController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<BoardResponse> getBoard(
+            @PathVariable UUID id
+    ) {
+        BoardResponse response = boardService.getBoard(id);
+
+        return ResponseEntity.ok(response);
     }
 }

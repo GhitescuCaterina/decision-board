@@ -6,7 +6,10 @@ import com.decisionboard.backend.dto.OptionResponse;
 import com.decisionboard.backend.model.Board;
 import com.decisionboard.backend.repository.BoardRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.UUID;
 import java.util.List;
 
 @Service
@@ -28,6 +31,16 @@ public class BoardService {
         Board savedBoard = boardRepository.save(board);
 
         return toResponse(savedBoard);
+    }
+
+    public BoardResponse getBoard(UUID id) {
+        Board board = boardRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Board not found"
+                ));
+
+        return toResponse(board);
     }
 
     private BoardResponse toResponse(Board board) {
